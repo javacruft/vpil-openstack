@@ -90,6 +90,8 @@ relations:
   - ceph-mon-region-lxd:osd
 - - ntp:juju-info
   - nova-compute-region-lxd:juju-info
+- - lxd-region-lxd:lxd
+  - nova-compute-region-lxd:lxd
 - - ntp:juju-info
   - neutron-gateway-region-lxd:juju-info
 - - ceph-radosgw-region-lxd:mon
@@ -187,7 +189,7 @@ services:
     annotations:
       gui-x: '500'
       gui-y: '0'
-    charm: cs:xenial/keystone
+    charm: cs:~openstack-charmers-next/xenial/keystone
     num_units: 1
     options:
       region: "RegionLXD RegionKVM"
@@ -198,7 +200,7 @@ services:
     annotations:
       gui-x: '0'
       gui-y: '250'
-    charm: cs:xenial/percona-cluster
+    charm: cs:~openstack-charmers-next/xenial/percona-cluster
     num_units: 1
     options:
       max-connections: 20000
@@ -208,7 +210,7 @@ services:
     annotations:
       gui-x: '500'
       gui-y: '-250'
-    charm: cs:xenial/openstack-dashboard
+    charm: cs:~openstack-charmers-next/xenial/openstack-dashboard
     num_units: 1
     to:
     - lxd:0
@@ -223,7 +225,7 @@ services:
     annotations:
       gui-x: '500'
       gui-y: '250'
-    charm: cs:xenial/rabbitmq-server
+    charm: cs:~openstack-charmers-next/xenial/rabbitmq-server
     num_units: 1
     to:
     - lxd:0
@@ -231,7 +233,7 @@ services:
     annotations:
       gui-x: '0'
       gui-y: '250'
-    charm: cs:xenial/percona-cluster
+    charm: cs:~openstack-charmers-next/xenial/percona-cluster
     num_units: 1
     options:
       max-connections: 20000
@@ -241,19 +243,17 @@ services:
     annotations:
       gui-x: '750'
       gui-y: '500'
-    charm: cs:xenial/ceph-mon
+    charm: cs:~openstack-charmers-next/xenial/ceph-mon
     num_units: 5
     to:
     - lxd:1
-    - lxd:2
     - lxd:3
-    - lxd:4
     - lxd:5
   ceph-osd-region-lxd:
     annotations:
       gui-x: '1000'
       gui-y: '500'
-    charm: cs:xenial/ceph-osd
+    charm: cs:~openstack-charmers-next/xenial/ceph-osd
     num_units: 5
     options:
       osd-devices: /dev/sdb
@@ -268,7 +268,7 @@ services:
     annotations:
       gui-x: '1000'
       gui-y: '250'
-    charm: cs:xenial/ceph-radosgw
+    charm: cs:~openstack-charmers-next/xenial/ceph-radosgw
     num_units: 1
     options:
       use-embedded-webserver: true
@@ -279,7 +279,7 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '0'
-    charm: cs:xenial/glance
+    charm: cs:~openstack-charmers-next/xenial/glance
     num_units: 1
     options:
       region: RegionLXD
@@ -289,19 +289,20 @@ services:
     annotations:
       gui-x: '500'
       gui-y: '500'
-    charm: cs:~jason-hobbs/xenial/neutron-api
+    charm: cs:~openstack-charmers-next/xenial/neutron-api
     num_units: 1
     options:
       neutron-security-groups: true
       region: RegionLXD
       flat-network-providers: physnet1
+      enable-sriov: true
     to:
     - lxd:0
   neutron-gateway-region-lxd:
     annotations:
       gui-x: '0'
       gui-y: '0'
-    charm: cs:xenial/neutron-gateway
+    charm: cs:~openstack-charmers-next/xenial/neutron-gateway
     num_units: 1
     options:
       ext-port: eno49
@@ -315,7 +316,7 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '500'
-    charm: cs:xenial/neutron-openvswitch
+    charm: cs:~openstack-charmers-next/xenial/neutron-openvswitch
     num_units: 0
     options:
       flat-network-providers: physnet1
@@ -326,7 +327,7 @@ services:
     annotations:
       gui-x: '0'
       gui-y: '500'
-    charm: cs:xenial/nova-cloud-controller
+    charm: cs:~openstack-charmers-next/xenial/nova-cloud-controller
     num_units: 1
     options:
       network-manager: Neutron
@@ -337,7 +338,7 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '250'
-    charm: cs:xenial/nova-compute
+    charm: cs:~openstack-charmers-next/xenial/nova-compute
     num_units: 5
     options:
       enable-live-migration: true
@@ -350,11 +351,14 @@ services:
     - '3'
     - '4'
     - '5'
+  lxd-region-lxd:
+    charm: cs:~openstack-charmers-next/xenial/lxd
+    num_units: 0
   cinder-region-lxd:
     annotations:
       gui-x: '750'
       gui-y: '0'
-    charm: cs:xenial/cinder
+    charm: cs:~openstack-charmers-next/xenial/cinder
     num_units: 1
     options:
       block-device: None
@@ -366,14 +370,14 @@ services:
     annotations:
       gui-x: '750'
       gui-y: '250'
-    charm: cs:xenial/cinder-ceph
+    charm: cs:~openstack-charmers-next/xenial/cinder-ceph
     num_units: 0
 # Region 2
   rabbitmq-server-region-kvm:
     annotations:
       gui-x: '500'
       gui-y: '250'
-    charm: cs:xenial/rabbitmq-server
+    charm: cs:~openstack-charmers-next/xenial/rabbitmq-server
     num_units: 1
     to:
     - lxd:6
@@ -381,7 +385,7 @@ services:
     annotations:
       gui-x: '0'
       gui-y: '250'
-    charm: cs:xenial/percona-cluster
+    charm: cs:~openstack-charmers-next/xenial/percona-cluster
     num_units: 1
     options:
       max-connections: 20000
@@ -391,19 +395,17 @@ services:
     annotations:
       gui-x: '750'
       gui-y: '500'
-    charm: cs:xenial/ceph-mon
+    charm: cs:~openstack-charmers-next/xenial/ceph-mon
     num_units: 5
     to:
     - lxd:7
-    - lxd:8
     - lxd:9
-    - lxd:10
     - lxd:11
   ceph-osd-region-kvm:
     annotations:
       gui-x: '1000'
       gui-y: '500'
-    charm: cs:xenial/ceph-osd
+    charm: cs:~openstack-charmers-next/xenial/ceph-osd
     num_units: 5
     options:
       osd-devices: /dev/sdb
@@ -418,7 +420,7 @@ services:
     annotations:
       gui-x: '1000'
       gui-y: '250'
-    charm: cs:xenial/ceph-radosgw
+    charm: cs:~openstack-charmers-next/xenial/ceph-radosgw
     num_units: 1
     options:
       use-embedded-webserver: true
@@ -429,7 +431,7 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '0'
-    charm: cs:xenial/glance
+    charm: cs:~openstack-charmers-next/xenial/glance
     num_units: 1
     options:
       region: RegionKVM
@@ -439,19 +441,20 @@ services:
     annotations:
       gui-x: '500'
       gui-y: '500'
-    charm: cs:~jason-hobbs/xenial/neutron-api
+    charm: cs:~openstack-charmers-next/xenial/neutron-api
     num_units: 1
     options:
       region: RegionKVM
       neutron-security-groups: true
       flat-network-providers: physnet1
+      enable-sriov: true
     to:
     - lxd:6
   neutron-gateway-region-kvm:
     annotations:
       gui-x: '0'
       gui-y: '0'
-    charm: cs:xenial/neutron-gateway
+    charm: cs:~openstack-charmers-next/xenial/neutron-gateway
     num_units: 1
     options:
       ext-port: eno49
@@ -465,7 +468,7 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '500'
-    charm: cs:xenial/neutron-openvswitch
+    charm: cs:~openstack-charmers-next/xenial/neutron-openvswitch
     num_units: 0
     options:
       flat-network-providers: physnet1
@@ -476,7 +479,7 @@ services:
     annotations:
       gui-x: '0'
       gui-y: '500'
-    charm: cs:xenial/nova-cloud-controller
+    charm: cs:~openstack-charmers-next/xenial/nova-cloud-controller
     num_units: 1
     options:
       network-manager: Neutron
@@ -487,13 +490,16 @@ services:
     annotations:
       gui-x: '250'
       gui-y: '250'
-    charm: cs:xenial/nova-compute
+    charm: cs:~openstack-charmers-next/xenial/nova-compute
     num_units: 5
     options:
       enable-live-migration: true
       enable-resize: true
       migration-auth-type: ssh
       virt-type: kvm
+      pci-passthrough-whitelist: ""
+      reserved-host-memory: 512
+      vcpu-pin-set: ""
     to:
     - '7'
     - '8'
@@ -504,7 +510,7 @@ services:
     annotations:
       gui-x: '750'
       gui-y: '0'
-    charm: cs:xenial/cinder
+    charm: cs:~openstack-charmers-next/xenial/cinder
     num_units: 1
     options:
       block-device: None
@@ -516,5 +522,5 @@ services:
     annotations:
       gui-x: '750'
       gui-y: '250'
-    charm: cs:xenial/cinder-ceph
+    charm: cs:~openstack-charmers-next/xenial/cinder-ceph
     num_units: 0
